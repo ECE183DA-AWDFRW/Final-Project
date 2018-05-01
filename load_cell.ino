@@ -5,6 +5,7 @@
 #define G D2
 #define Y D3
 #define R D4
+#define Touch_Button_Pin D6
 
 Servo servo;
 // Scale Settings
@@ -13,13 +14,14 @@ const int SCALE_SCK_PIN = D1;
 
 const int analogInPin = A0;  // Analog input pin that the receiver is attached to
 int IRsensorValue = 0;        // value read from the receiver
-
+int touchState = 0;        //Touch Sensor state
 
 HX711 scale(SCALE_DOUT_PIN, SCALE_SCK_PIN);
 
 void setup() {
   servo.attach(D5); //D5
   servo.write(90);
+  pinMode(Touch_Button_Pin, INPUT);
   pinMode(G, OUTPUT);
   pinMode(Y, OUTPUT);
   pinMode(R, OUTPUT);
@@ -35,12 +37,14 @@ void loop() {
   senseWeight();
   while (!Serial.available()){}
   int count = Serial.read() - '0';
-  dispense(count);
+  if (touchSensor() == 1){  
+    dispense(count);
+  }
   Serial.flush();
 }
 
 void senseWeight(){
-  float w = scale.get_units(1);
+  float w = scale.get_units(1); //get weight
   String weight = String(w, 2);
   Serial.println(weight);
   if (w <= 20){
@@ -64,7 +68,7 @@ void senseWeight(){
 }
 
 void dispense(int count){
-  for (int i = 0; i < count; i++){
+  for (int i = 0; i < count; i++){          //dispense specified amount
       for (int i = 90; i > 0; i--){
       servo.write(i);
       delay(10);
@@ -77,7 +81,7 @@ void dispense(int count){
         servo.write(i);
         delay(10);
       }
-      if (!pillDispensed){
+      if (!pillDispensed){              //If pill not sensed, dispense again
         i--;
       }
     }
@@ -101,5 +105,9 @@ bool pillDispensed(){
     Serial.print("\nNo object in Front");
     return false;
     }
+}
+
+bool touchSensor(){
+  return digitalRead(Touch_Button_Pin);         //check if touched
 }
 
