@@ -5,6 +5,7 @@
 https://www.raspberrypi.org/documentation/installation/noobs.md
 
 2. Wire the arduino according to the following wiring diagram:
+![35301243_10213314346025806_4738161174523150336_n](https://user-images.githubusercontent.com/36172219/41448674-db14ad48-7010-11e8-9fd0-df1015b95ac9.png)
 
 3. In the RPI, install Flask using the following tutorial:
 https://projects.raspberrypi.org/en/projects/python-web-server-with-flask
