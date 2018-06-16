@@ -27,4 +27,4 @@ The HAPI robot is an automated pill dispenser. It runs a web server to collect u
 
 **Video Demo**
 
-https://www.youtube.com/watch?v=G2eGzNecvgg
+https://www.youtube.com/watch?v=_3_CoDVWU6I
